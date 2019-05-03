@@ -18,7 +18,13 @@ function loadSVG() {
 
       car = document.querySelector("#car");
 
+      //the curve
+
+      curve = document.querySelector("#theCurve");
+
       //start the animation
+
+      currentPosition = 0;
 
       runAnimation();
     });
@@ -28,9 +34,7 @@ let car = null;
 let curve = null;
 let currentPosition;
 
-let xpos = 20;
-
-const speed = 5;
+const speed = 3;
 
 function runAnimation() {
   console.log("animate");
@@ -39,11 +43,14 @@ function runAnimation() {
 
   requestAnimationFrame(runAnimation);
 
-  //increment the x position
+  //change current-position
 
-  xpos += speed;
+  currentPosition += speed;
 
-  //move the car to the enw position
+  // find the x and y
+  const pos = curve.getPointAtLength(currentPosition);
 
-  car.style.transform = `translate( ${xpos}px, 10px )`;
+  //move the car to the new position
+
+  car.style.transform = `translate( ${pos.x}px, ${pos.y}px )`;
 }
