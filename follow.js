@@ -61,5 +61,7 @@ function runAnimation() {
 
   //move the car to the new position
 
-  car.node.style.transform = `translate( ${pos.x}px, ${pos.y}px )`;
+  car.node.style.transform = `translate( ${pos.x}px, ${pos.y}px) rotate(${
+    pos.alpha
+  }deg)`;
 }
