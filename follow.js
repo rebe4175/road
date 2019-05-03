@@ -8,19 +8,23 @@ function loadSVG() {
     .then(svgData => {
       console.log("SVG loaded");
 
-      // TODO: put the SVG into the DOM
+      // put the SVG into the DOM
 
       document
         .querySelector("#thesvg")
         .insertAdjacentHTML("afterbegin", svgData);
 
+      // create snap object (from Snap.svg library)
+
+      const snap = Snap("#thesvg svg");
+
       //remember the car
 
-      car = document.querySelector("#car");
+      car = snap.select("#car");
 
       //the curve
 
-      curve = document.querySelector("#theCurve");
+      curve = snap.select("#theCurve");
 
       //start the animation
 
@@ -34,15 +38,16 @@ let car = null;
 let curve = null;
 let currentPosition;
 
-const speed = 3;
+const speed = 5;
 
 function runAnimation() {
   console.log("animate");
 
   //make sure the animation loops (every frame)
 
-  requestAnimationFrame(runAnimation);
-
+  if (currentPosition < curve.getTotalLength()) {
+    requestAnimationFrame(runAnimation);
+  }
   //change current-position
 
   currentPosition += speed;
@@ -50,7 +55,11 @@ function runAnimation() {
   // find the x and y
   const pos = curve.getPointAtLength(currentPosition);
 
+  if (pos.x === 1536) {
+    cancelAnimationFrame(runAnimation);
+  }
+
   //move the car to the new position
 
-  car.style.transform = `translate( ${pos.x}px, ${pos.y}px )`;
+  car.node.style.transform = `translate( ${pos.x}px, ${pos.y}px )`;
 }
